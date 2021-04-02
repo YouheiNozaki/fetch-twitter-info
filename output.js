@@ -16,12 +16,10 @@ const csvWriter = createCsvWriter({
   header: [
     { id: "name", title: "name" },
     { id: "image_url", title: "image_url" },
-    // { id: "prizes_text", title: "prizes_text" },
     { id: "site_url", title: "site_url" },
     { id: "due_date_text", title: "due_date_text" },
     { id: "end_at", title: "end_at" },
     {id: 'promoter_name', title: 'promoter_name'},
-    // テスト用
     {id: 'text', title: 'text'},
   ]
 });
@@ -43,18 +41,17 @@ async function searchTweet(count) {
       const siteUrl = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id;
       const campaignName = tweet.full_text.replace(/\r?\n/g, "").match(/(\D+)キャンペーン/) || []
       /*
-      name → キャンペーン名 (option)
-      image_url →  画像のURL
-      prizes_text → 景品の情報  (option)
-      site_url → https://twitter.com/okaponta_/status/1375674604409159680
-      due_date_text → XX月XX日 10:00  (option)
-      end_at → 2021-10-01 10:10  (option)
-      promoter_name → 主催者のアカウント名
+        name → キャンペーン名 (option)
+        image_url →  画像のURL
+        prizes_text → 景品の情報  (option)
+        site_url → https://twitter.com/okaponta_/status/1375674604409159680
+        due_date_text → XX月XX日 10:00  (option)
+        end_at → 2021-10-01 10:10  (option)
+        promoter_name → 主催者のアカウント名
       */
       return {
         name: campaignName[0],
         image_url: tweet.user.profile_image_url,
-        // prizes_text
         site_url: siteUrl,
         due_date_text: dueDate[0],
         end_at: endDateAt,
@@ -68,10 +65,6 @@ async function searchTweet(count) {
   } catch (error) {
     console.log("キャンペーンの一覧取得に失敗しました。")
     console.error(error)
-    /*
-      TODO：ここでSlackにエラー内容を送信する処理
-    */
-    throw new Error()
   }
 }
 
